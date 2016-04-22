@@ -1,0 +1,27 @@
+{
+    "msg": {
+        "accountStatistics": {
+            "consumedSum": 144653.25,
+            "moneyLoaned": 4000,
+            "moneyLocked": 13775,
+            "moneyUnlocked": 9480.730000000243,
+            "receivingItemSum": 163908.98000000024
+        },
+        "cityId": 1002,
+        "clientServantId": 1,
+        "companyAddress": "大冶市陈贵镇堰畈桥村二楼",
+        "companyEmail": "zhangyong@baiying365.com",
+        "companyName": "大冶建光装饰工程有限公司",
+        "contactName": "吴雷明",
+        "contactPhone": "18565816421",
+        "createTime": "2015-05-14 17:34",
+        "customerCanUseAmount": null,
+        "customerId": 5,
+        "customerLockedAmount": null,
+        "districtId": 100119,
+        "isTestFastOrderCustomer": 1,
+        "provinceId": 10,
+        "sellerId": 43
+    },
+    "code": 200
+}

@@ -1,0 +1,217 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>demo赋值插件测试</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+	.wrapper{
+    margin:0 auto;
+    width:960px;
+    height:100%;
+}
+.M-box,.M-box1,.M-box2,.M-box3{
+	position: relative;
+    text-align: center;
+  	zoom: 1;
+}
+.M-box:before,.M-box:after,.M-box1:before,.M-box1:after ,.M-box2:before,.M-box2:after ,.M-box3:before,.M-box3:after{
+    content:"";
+    display:table;
+}
+.M-box:after,.M-box1:after,.M-box2:after,.M-box3:after{
+	clear:both;
+	overflow:hidden;
+}
+.M-box span,.M-box1 span,.M-box2 span,.M-box3 span{
+	float: left;
+	margin:0 5px;
+	width: 38px;
+    height: 38px;
+    line-height: 38px;
+    color: #bdbdbd;
+    font-size: 14px;
+}
+.M-box .active,.M-box1 .active,.M-box2 .active,.M-box3 .active{
+	float: left;
+	margin:0 5px;
+	width: 38px;
+    height: 38px;
+    line-height: 38px;
+    background: #e91e63;
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid #e91e63;
+}
+.M-box a,.M-box1 a,.M-box2 a,.M-box3 a{
+	float: left;
+	margin:0 5px;
+	width: 38px;
+    height: 38px;
+    line-height: 38px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    color: #bdbdbd;
+    font-size: 14px;
+}
+.M-box a:hover,.M-box1 a:hover,.M-box2 a:hover,.M-box3 a:hover{
+	color:#fff;
+    background: #e91e63;
+}
+.M-box .next,.M-box .prev,.M-box1 .next,.M-box1 .prev{
+	font-family: "Simsun";
+    font-size: 16px;
+    font-weight: bold;
+}
+.now,.count{
+	padding:0 5px;
+	color:#f00;
+}
+
+input{
+    float: left;
+    margin:0 5px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    outline: none;
+    color: #bdbdbd;
+    font-size: 14px;
+}
+</style>
+</head>
+<body><!-- 3、循环 li有链接 -->
+	<!-- <div class="container">
+		 <ul class="nav nav-pills" url="js/mock/jsonData.json"> 
+		</ul>
+	</div>
+	<div class="row comMessage">
+		<div class="container messagePanel">
+		<div class="col-md-5">
+			<div class="panel panel-primary">
+				<div class="panel-heading">客户信息</div>
+				<div class="panel-body" id="custormerMessage">
+					<p fieldName="contactName">联系人：</p>
+					<p fieldName="companyName">公司名称：</p>
+					<p fieldName="contactPhone">联系电话：</p>
+					<p fieldName="companyEmail">邮箱：</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div class="panel panel-primary">
+				<div class="panel-heading">订单状态</div>
+				<div class="panel-body" id="orderStatus">
+					<p fieldName="totalCount">订单总数：</p>
+					<p fieldName="workCompleteCount">完成订单：</p>
+					<p fieldName="unpublishedCount">未发布订单：</p>
+					<p fieldName="publishedCount">发布订单：</p>
+				</div>
+			</div>
+		</div>
+			<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">订单列表</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<th>订单编号</th>
+							<th>施工地址</th>
+							<th>施工时间</th>
+							<th>订单类型</th>
+							<th>订单价格</th>
+						</thead>
+						<tbody id="order" tagRepeat="true">
+							<tr>
+								<td fieldName = "serialNumber"></td>
+								<td fieldName = "cityName"></td>
+								<td fieldName = "workStartTime"></td>
+								<td fieldName = "typeDesc"></td>
+								<td fieldName = "currentPrice"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<table class="table">
+						<thead>
+							<th>订单编号</th>
+							<th>施工地址</th>
+							<th>施工时间</th>
+							<th>订单类型</th>
+							<th>订单价格</th>
+						</thead>
+						<tbody id="tableA">
+							<tr>
+								<td>22</td>
+								<td>23</td>
+								<td>33</td>
+								<td>44</td>
+								<td>34</td>
+							</tr>
+							<tr>
+								<td>ff</td>
+								<td>df</td>
+								<td>fn</td>
+								<td>hg</td>
+								<td>jj</td>
+							</tr>
+							<tr>
+								<td>ff</td>
+								<td>df</td>
+								<td>fn</td>
+								<td>hg</td>
+								<td>jj</td>
+							</tr>
+							<tr>
+								<td>xc</td>
+								<td>nv</td>
+								<td>mg</td>
+								<td><span>dgfhdgdfgj</span><i>fdgf出现部分</i></td>
+								<td>kl</td>
+							</tr>
+							<tr>
+								<td>xc</td>
+								<td>nv</td>
+								<td>mg</td>
+								<td>部分</td>
+								<td>kl</td>
+							</tr>
+							<tr>
+								<td>xc</td>
+								<td>nv</td>
+								<td>mg</td>
+								<td>fdgf出现部分</td>
+								<td>kl</td>
+							</tr>
+						</tbody>
+					</table>
+		</div>
+	</div> -->
+	<!-- <div class="M-box1">
+		
+	</div> -->
+<!-- 	<div class="address">
+		省：<select id="cmbProvince"></select>  
+		市：<select id="cmbCity"></select>  
+		区：<select id="cmbArea"></select>  
+	</div> -->
+	<div class="searchBox">
+		<div>
+	        <input type="text" style="width:300px;height:30px;font-size:14px;" placeholder="请输入a或b模拟效果" id="search" >
+	    </div>
+	    <div class="auto_hidden" id="list"><!--自动完成 DIV--></div>
+	</div>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/universal3.js"></script>
+	<script src="js/pading.js"></script>
+
+</body>
+</html>

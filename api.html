@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>API</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<style>
+		pre{
+			color:#7a0202;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<h4>Methods</h4>
+				<table class="table table-bordered table-hover">
+					<thead>
+						<th>Name</th>
+						<th>Parameter</th>
+						<th>Description</th>
+						<th>Return</th>
+					</thead>
+					<tbody>
+						<tr><td colspan = 4 style="color:#1ab394;font-size:600">数据绑定</td></tr>
+
+						<tr>
+						<td>$("xxx").fit()</td>
+						<td></td>
+						<td>如果返回的数据不用经过处理直接可以应用到实例中，即可直接在html标签中添加url属性，表示$.("xxx")范围内的请求会自动请求并且会自动识别标签进行数据绑定。<br>例如：
+							&lt;div class="container"&gt;&lt;ul class="nav nav-pills" url="js/mock/jsonData.json"&gt;&lt;/ul&gt;&lt;/div&gt;
+							<br>绑定后:&lt;div class="container"&gt;&lt;ul class="nav nav-pills" url="js/mock/jsonData.json"&gt;
+									&lt;li&gt;HOME&lt;/li&gt;
+									&lt;li&gt;CSS3&lt;/li&gt;
+									&lt;li&gt;Sass&lt;/li&gt;
+									&lt;li&gt;jQuery&lt;/li&gt;
+							&lt;/ul&gt;&lt;/div&gt;
+						<td></td>
+						</tr>
+
+						<tr>
+							<td>$("xxx").ajaxData(params)</td>
+							<td>参数名和$.ajax的参数名相同。默认属性<pre>
+	{
+            url: "",
+            data: "",
+            type: "GET",
+            async: false, 
+            cache:true,
+            dataType: "json", 
+            contentType: "application/json",
+            success: null, 
+            error: null
+	}
+							</pre></td>
+							<td>发送请求 例如：<pre>$("#order").ajaxData({
+        url: "js/mock/custormerOrder.json",
+        type:"GET",
+        dataType:"",
+        success: function(data) {
+           
+        },
+        error:function(){
+
+    	}
+});</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").setData(data)</td>
+							<td>data:请求后处理好的数据</td>
+							<td>如果数据需要进行处理后才可以进行绑定，即可使用setData(data).<br>例如<pre>
+$("#custormerMessage").ajaxData({
+        url: "js/mock/custormerInfo.json",
+        success: function(data) {
+            var data = data.msg;
+            $("#custormerMessage").setData(data);
+        }
+   });
+							</pre></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td>$("xxx").load(params)</td>
+							<td>params:string或object,发送请求的条件</td>
+							<td>加载数据。例如<br>
+								<pre>
+$("#orderStatus").load("js/mock/orderStatus.json");
+$("#orderStatus").load({
+	url:"js/mock/orderStatus.json",
+	data:data,
+	type:"Post",
+	success:function(){
+
+	}
+});
+							</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").reload()</td>
+							<td></td>
+							<td>重新加载数据，使用load()后才能使用reload()。例如<br>
+								<pre>
+$("#orderStatus").load("js/mock/orderStatus.json");
+$("#orderStatus").reload();
+							</pre></td>
+							<td></td>
+						</tr>
+						<tr><td colspan = 4 style="color:#1ab394;font-size:600">表格操作</td></tr>
+						<tr>
+							<td>$("xxx").setGetCell([row,col,val])</td>
+							<td>Array<br>row: number/string 获取/设置行数<br>col：number/string  获取/设置列数<br>val: number/string  要设置的单元格值</td>
+							<td>获取/设置单元格值<pre>
+$("#tableA").setGetCell([2,3]);
+$("#tableA").setGetCell([2,3,"caldfdgfd"]);
+							</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").mergeCells(params)</td>
+							<td>params:<br>rowIndex:第几行<br>colIndex:第几列<br>rowSpan:合并几行<br>colSpan:合并几列<pre>[
+	{ rowIndex: 2, colIndex: 2, rowSpan: 2, colSpan: 2 },
+	{ rowIndex: 1, colIndex: 3, rowSpan: 3, colSpan: 3 }
+ ]</pre></td>
+							<td>合并单元格<br><pre>
+var cells = [
+    { rowIndex: 2, colIndex: 2, rowSpan: 2, colSpan: 2 },
+    { rowIndex: 1, colIndex: 3, rowSpan: 3, colSpan: 3 }
+ ];
+   $("#tableA").mergeCells(cells);
+								</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").removeRows(params)</td>
+							<td>params:string/number/array</td>
+							<td>删除一行或多行<br><pre>$("#tableA").removeRows(2);
+$("#tableA").removeRows([1,3,4]);</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").addRows(rowIndex,rows)</td>
+							<td>rowIndex:在哪行后面增加<br>rows：增加的行数</td>
+							<td>增加行<pre>$("#tableA").addRows(1,2);</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").moveUpRows({rowIndex:x,rows:x,toRows:x})</td>
+							<td>rowIndex:第几行开始<br>rows:要移动rowIndex下面的几行<br>toRows：向上移动几行</td>
+							<td>向上移动行<pre>$("#tableA").moveUpRows({rowIndex:2,rows:2,toRows:1});</pre></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>$("xxx").moveDownRows({rowIndex:x,rows:x,toRows:x})</td>
+							<td>rowIndex:第几行开始<br>rows:要移动rowIndex下面的几行<br>toRows：向下移动几行</td>
+							<td>向下移动行<pre>$("#tableA").moveDownRows({rowIndex:0,rows:2,toRows:1});</pre></td>
+							<td></td>
+						</tr>
+						<tr><td colspan = 4 style="color:#1ab394;font-size:600">分页插件</td></tr>
+
+						<tr>
+						<td><pre>$('.M-box1').pagination({
+    totalData:100,
+    showData:5,
+    jump:true,
+    coping:true,
+    homePage:'首页',
+    endPage:'末页',
+    prevContent:'上页',
+    nextContent:'下页'
+});</pre></td>
+						<td>
+							<table class="table">
+								<tbody>
+									<tr>options(参数设置)</tr>
+									<tr>
+										<td>参数</td>
+										<td>默认值</td>
+										<td>说明</td>
+									</tr>
+									<tr>
+										<td>pageCount</td>
+										<td>9</td>
+										<td>总页数</td>
+									</tr>
+									<tr>
+										<td>totalData</td>
+										<td>0</td>
+										<td>数据总条</td>
+									</tr>
+									<tr>
+										<td>current</td>
+										<td>1</td>
+										<td>当前页数</td>
+									</tr>
+									<tr>
+										<td>showData</td>
+										<td>0</td>
+										<td>每页显示的条数</td>
+									</tr>
+									<tr>
+										<td>prevCls</td>
+										<td>'prev'</td>
+										<td>上一页class</td>
+									</tr>
+									<tr>
+										<td>nextCls</td>
+										<td>'next'</td>
+										<td>下一页class</td>
+									</tr>
+									<tr>
+										<td>prevContent</td>
+										<td>'\<'</td>
+										<td>上一页节点内容</td>
+									</tr>
+									<tr>
+										<td>nextContent</td>
+										<td>'>'</td>
+										<td>下一页节点内容</td>
+									</tr>
+									<tr>
+										<td>activeCls</td>
+										<td>'active'</td>
+										<td>当前页选中状态class名</td>
+									</tr>
+									<tr>
+										<td>count</td>
+										<td>3</td>
+										<td>当前选中页前后页数</td>
+									</tr>
+									<tr>
+										<td>coping</td>
+										<td>false</td>
+										<td>是否开启首页和末页，值为boolean</td>
+									</tr>
+									<tr>
+										<td>homePage</td>
+										<td>""</td>
+										<td>首页节点内容，默认为空</td>
+									</tr>
+									<tr>
+										<td>endPage</td>
+										<td>""</td>
+										<td>尾页节点内容，默认为空</td>
+									</tr>
+									<tr>
+										<td>jump</td>
+										<td>false</td>
+										<td>是否开启跳转到指定页数，值为boolean类型</td>
+									</tr>
+									<tr>
+										<td>jumpIptCls</td>
+										<td>'jump-ipt'</td>
+										<td>文本框内容</td>
+									</tr>
+									<tr>
+										<td>jumpBtnCls</td>
+									<td>'jump-btn'</td>
+									<td>跳转按钮class</td></tr>
+									<tr>
+										<td>jumpBtn</td>
+										<td>'跳转'</td>
+										<td>跳转按钮文本内容</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+						<td>分页插件，实现样式和结构分离</td>
+						<td></td>
+						</tr>
+						<tr><td colspan = 4 style="color:#1ab394;font-size:600">省市区三级联动插件</td></tr>
+						<tr>
+							<td><pre>&lt;div class="address"&gt;
+	省：&lt;select id="cmbProvince"&gt;&lt;/select&gt;  
+	市：&lt;select id="cmbCity"&gt;&lt;/select&gt;  
+	区：&lt;select id="cmbArea"&gt;&lt;/select&gt;  
+&lt;/div&gt;</pre><pre>$(".address").ajaxData({
+        url: "js/mock/provinceJson.json",
+        success: function(data) {
+          $(".address").address({
+            provinceId:"cmbProvince",
+            cityId:"cmbCity",
+            areaId:"cmbArea",
+            defaultProvince:"山东",
+            defaultCity:"青岛",
+            defaultArea:"城阳区",
+            data:data
+          });
+        }
+    });</pre></td>
+							<td>
+								<table class="table">
+								<tbody>
+									<tr>options(参数设置)</tr>
+									<tr>
+										<td>参数</td>
+										<td>默认值</td>
+										<td>说明</td>
+									</tr>
+									<tr>
+										<td>provinceId</td>
+										<td>""</td>
+										<td>省份selected id</td>
+									</tr>
+									<tr>
+										<td>cityId</td>
+										<td>""</td>
+										<td>市selected id</td>
+									</tr>
+									<tr>
+										<td>areaId</td>
+										<td>""</td>
+										<td>区selected id</td>
+									</tr>
+									<tr>
+										<td>defaultProvince</td>
+										<td>"北京"</td>
+										<td>省份默认值</td>
+									</tr>
+									<tr>
+										<td>defaultCity</td>
+										<td>'北京'</td>
+										<td>城市默认值</td>
+									</tr>
+									<tr>
+										<td>defaultArea</td>
+										<td>'东城区'</td>
+										<td>区默认值</td>
+									</tr>
+									<tr>
+										<td>data</td>
+										<td>""</td>
+										<td>ajax请求返回的数据</td>
+									</tr>
+								</tbody>
+							</table>
+							</td>
+							<td>全国省市区三级联动</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

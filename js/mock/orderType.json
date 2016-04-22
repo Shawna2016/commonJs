@@ -1,0 +1,69 @@
+{
+    "msg": {
+        "orderType": [
+            {
+                "text": "其他订单",
+                "value": 999
+            },
+            {
+                "text": "卸货",
+                "value": 5
+            },
+            {
+                "text": "货架安装",
+                "value": 1
+            },
+            {
+                "text": "照明安装",
+                "value": 101
+            },
+            {
+                "text": "照明维修",
+                "value": 102
+            },
+            {
+                "text": "标识维修",
+                "value": 2
+            },
+            {
+                "text": "标识安装",
+                "value": 3
+            },
+            {
+                "text": "快速下单",
+                "value": 998
+            }
+        ],
+        "orderStatus": [
+            {
+                "text": "已创建",
+                "value": 1
+            },
+            {
+                "text": "已发布",
+                "value": 2
+            },
+            {
+                "text": "已接单",
+                "value": 30
+            },
+            {
+                "text": "进行中",
+                "value": 3
+            },
+            {
+                "text": "待验收",
+                "value": 40
+            },
+            {
+                "text": "验收完成",
+                "value": 5
+            },
+            {
+                "text": "已取消",
+                "value": 10
+            }
+        ]
+    },
+    "code": 200
+}
