@@ -78,12 +78,127 @@
             return col;
 		}
 	};
+	//图片裁剪上传
+	// function PicUpload(self,options){
+	// 	var picUploadDefaluts = {
+
+	// 	}
+	// 	this.self = self;
+	// 	this.settings = set = $.extend({},picUploadDefaluts,options);
+	// 	this.init();
+	// }
+	// $.extend(PicUpload.prototype,Mask.prototype,{
+	// 	init:function(){
+
+	// 	},
+
+	// });
+	var picUpload = function(self,obj){
+		new PicUpload(self,obj);
+	}
+	//遮罩层
+	function Mask(self,options){
+		var maskDefaluts = {
+			type:'show',
+			maskColor:'#000',//遮罩层的颜色
+			maskAlpha:'0.7',//遮罩层的透明度
+			contentAlgin:'top',//内容层在页面位置，默认居中
+			top:'',//内容层距离可视区域顶端的距离
+			left:'',//内容层距离可视区域左侧的距离
+			bodyWidth:$("body").width(),
+			bodyHeight:$("body").height(),
+			windowHeight:$(window).height(),
+			scrollHeight:$(document).scrollTop()
+		}
+		this.settings = set = $.extend({},maskDefaluts,options);
+		this.self = self;
+		this.options = options;
+		this.init();
+	}
+	$.extend(Mask.prototype,{
+		init:function(){
+			$("body").css("overflow","hidden");
+			if(set.type == "" || set.type == "show"){
+				this.maskShow();
+			}else if(set.type == "hide"){
+				this.maskHide();
+			}
+		},
+		createMask:function(){
+			var maskHtml = '<div id="maskBox" style="display:none;"></div>'
+			this.self.after(maskHtml);
+			$("#maskBox").css({
+				"position": 'absolute',
+				"left": "0",
+				"top":"0",
+				"width":"100%",
+				"height":"100%",
+				"z-index":"1000",
+				"background-color":set.maskColor,
+				"background-color":"rgba(0,0,0,"+set.maskAlpha+")"
+			});
+		},
+		contentPlace:function(){
+			this.self.css({
+				"z-index": '1001',
+				"position": 'absolute',
+				"display":'none'
+			});
+			var top = (set.windowHeight-this.self.height())/2+set.scrollHeight + "px",
+					left= (set.bodyWidth-this.self.width())/2 + "px";
+			if(this.options.contentAlgin){
+				switch(set.contentAlgin){
+					case "center":
+						this.self.css({
+							"position": 'absolute',
+							"top":top,
+							"left":left
+						});
+					break;
+					case "top":
+						this.self.css({
+							"position": 'absolute',
+							"top":"10%",
+							"left":left
+						})
+					break;
+					case "bottom":
+						this.self.css({
+							"position": 'absolute',
+							"bottom":"10%",
+							"left":left
+						})
+					break;
+				}
+			}else if(this.options.left!="" || this.options.top != ""){
+				this.self.css({
+					"position": 'absolute',
+					"top":set.top,
+					"left":set.left
+				})
+			}
+		},
+		maskShow:function(){
+			this.createMask();
+			$("#maskBox").show();
+			this.contentPlace();
+			this.self.show();
+		},
+		maskHide:function(){
+			this.self.hide();
+			$("#maskBox").hide();
+		}
+	});
+	var mask = function(self,options){
+		new Mask(self,options);
+	}
 	//搜索自动补全
 	function CompleteSearch(self,options){
 		var completeSearchDefaults = {
 			inputId:"inputId",
 			listId:"listId",
-			data:""
+			data:"",
+			hoverLi:"hoverLi"//list列表下li hover时添加的class
 		};
 		this.self = self;
 		this.settings = set = $.extend({},completeSearchDefaults,options);
@@ -94,24 +209,66 @@
 			this.eventBind();
 		},
 		listRende:function(){
-			var inputValue = $("#"+set.inputId).text();
+			var inputValue = $("#"+set.inputId).val();
 			if(inputValue.replace(/(^\s*)|(\s*$)/g,'')==""){ return; }//值为空，退出
             try{ var reg = new RegExp("(" + inputValue + ")","i");}
             catch (e){ return; }
             set.data.sort();
-            var result = "";
+            var result = "<ul>";
             for(var i=0;i<set.data.length;i++){
             	if(reg.test(set.data[i])){
-            		var div = $('<div>'+set.data[i]+'</div>');
+            		div = '<li index="'+i+'">'+set.data[i]+'</li>';
             		result += div;
             	}
             }
-            $("#"+set.listId).append(result);
+            result += "</ul>";
+            $("#"+set.listId).html(result);
+            $("#"+set.listId).find('li').first().addClass('hoverLi');
+            this.eventBind();
 		},
-		eventBind:function(event){
-			if(event.keyCode!=13&&event.keyCode!=38&&event.keyCode!=40){
-				this.listRende();
+		pressKey:function(event){//键盘上下键选择元素
+			var liLength = $("#"+set.listId).find('li').length,
+				currentLi = $("#"+set.listId).find('.hoverLi'),
+				currentLe = currentLi.attr("index");
+			//光标下箭头
+			if(event.keyCode == 40){
+				currentLe++;
+				currentLe = currentLe>=liLength?0:currentLe;
+				this.findLi(liLength,currentLe);
+			//光标上箭头
+			}else if(event.keyCode == 38){
+				currentLe--;
+				currentLe = currentLe<0?0:currentLe;
+				this.findLi(liLength,currentLe);
+			}else if(event.keyCode == 13){//确认键
+				$("#"+set.listId).hide();
 			}
+		},
+		findLi:function(liLength,currentLe){
+			for(var i=0;i<liLength;i++){
+				if($("#"+set.listId).find('li').eq(i).attr('index')==currentLe){
+					var findLi = $("#"+set.listId).find('li').eq(i);
+					findLi.addClass('hoverLi').siblings('li').removeClass('hoverLi');
+					$("#"+set.inputId).val(findLi.text());
+				}
+			}
+		},
+		eventBind:function(){
+			var key = this;
+			$("#"+set.inputId).on("keyup",function(event){
+				$("#"+set.listId).show();
+				if(event.keyCode!=13&&event.keyCode!=38&&event.keyCode!=40){
+					key.listRende();
+				}
+				key.pressKey(event);
+			});
+			$("#"+set.listId).find('li').on("mouseover",function(){
+				$(this).addClass('hoverLi').siblings('li').removeClass('hoverLi');
+			});
+			$("#"+set.listId).find('li').on("click",function(){
+				$("#"+set.inputId).val($(this).text());
+				$("#"+set.listId).hide();
+			});
 		}
 
 
@@ -527,6 +684,12 @@
 		},
 		completeSearch:function(obj){
 			completeSearch(this,obj);
+		},
+		mask:function(obj){
+			mask(this,obj);
+		},
+		picUpload:function(obj){
+			picUpload(this,obj);
 		}
 	});
 

@@ -69,8 +69,29 @@
 	padding:0 5px;
 	color:#f00;
 }
-
-input{
+.hoverLi{
+	background: #ccc;
+	cursor: pointer;
+}
+#changePic{
+	width:120px;
+	height:35px;
+	background: #ccc;
+}
+#maskBox{
+	position:absolute;
+    left:0;
+    top:0;
+    z-index:40000;
+    background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+    background-color:rgba(0,0,0,0.7); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+}
+#content{
+	width:500px;
+	height:200px;
+	background:#fff;
+}
+/*input{
     float: left;
     margin:0 5px;
     width: 38px;
@@ -82,7 +103,7 @@ input{
     outline: none;
     color: #bdbdbd;
     font-size: 14px;
-}
+}*/
 </style>
 </head>
 <body><!-- 3、循环 li有链接 -->
@@ -202,11 +223,15 @@ input{
 		市：<select id="cmbCity"></select>  
 		区：<select id="cmbArea"></select>  
 	</div> -->
-	<div class="searchBox">
-		<div>
-	        <input type="text" style="width:300px;height:30px;font-size:14px;" placeholder="请输入a或b模拟效果" id="search" >
-	    </div>
-	    <div class="auto_hidden" id="list"><!--自动完成 DIV--></div>
+
+	<!-- <div class="searchBox" style="margin:100px;">
+		<input type="text" style="width:300px;height:30px;font-size:14px; display:block;" placeholder="请输入a或b模拟效果" id="search" />
+		<div id="list"></div>
+	</div> -->
+	<button id = "changePic">更换头像</button>
+	<div id="content" style="display:none;">
+		<p>遮罩层打开</p>
+		<button class="close">关闭</button>
 	</div>
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

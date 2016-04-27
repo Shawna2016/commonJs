@@ -54,9 +54,25 @@ $(function() {
 //           });
 //         }
 //     });
- $(".searchBox").completeSearch({
-      inputId:"search",
-      listId:"list",
-      data:['b0','b12','b22','b3','b4','b5','b6','b7','b8','b2','abd','ab','acd','accd','b1','cd','ccd','cbcv','cxf']
- });
+ // $(".searchBox").completeSearch({
+ //      inputId:"search",
+ //      listId:"list",
+ //      data:['b0','b12','b22','b3','b4','b5','b6','b7','b8','b2','abd','ab','acd','accd','b1','cd','ccd','cbcv','cxf']
+ // });
+  // $("#changePic").on("click",function(){
+  //     $("#content").mask({
+  //       type:'show',
+  //       maskColor:'#000',//遮罩层的颜色
+  //       maskAlpha:'0.7',//遮罩层的透明度
+  //       contentAlgin:'top',//内容层在页面位置，默认居中
+  //       top:'10%',//内容层距离可视区域顶端的距离
+  //       left:'10%'//内
+  //     });
+  // });
+  // $(".close").on("click",function(){
+  //   $("#content").mask({
+  //       type:'hide'
+  //     });
+  // });
+
 })
